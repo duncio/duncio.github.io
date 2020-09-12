@@ -1,0 +1,95 @@
+*{
+    box-sizing: border-box;
+    font-family: 'Fira Sans', sans-serif;
+}
+
+#gallery {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    
+}
+
+.gallery {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    
+}
+
+article {
+    max-width: 80%;
+    margin-left: 10%;
+}
+
+img {
+    margin: 1em;
+    box-shadow: 10px 10px 10px #777777;
+}
+
+figcaption {
+    font-weight: bold;
+    font-style: italic;
+    font-size: 1.2em;
+    text-align: center;
+}
+
+h1 {
+    margin-top:40px;
+    font-size: 2em;
+    text-align: center;
+    text-shadow: 2px 2px 5px blue;
+    
+}
+h3 { 
+    opacity: 0.6;
+    font-size: 2rem;
+	padding: 10px;
+    text-align: center;
+}
+
+aside{
+    text-align: center;
+    text-shadow: 1px 1px 3px blue;
+    padding-bottom: 30px;
+}
+aside a{
+    text-shadow: 1px 1px 3px lightsalmon;
+    padding-bottom: 30px;
+}
+
+.button {
+    width: 200px;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-right: 10px;
+    padding-left: 10px;
+    background-color: crimson; 
+    border: 1px solid #000000;
+    
+}
+
+a {
+    text-decoration: none;
+    
+}
+a:hover {
+    background: none;
+  color: red;
+}
+
+.opis{
+    width: 80%;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+.opis p {
+    font-size: 1.2em;
+    text-align: center
+}
