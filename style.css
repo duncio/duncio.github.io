@@ -82,7 +82,7 @@ a:hover {
 }
 
 .opis{
-    width: 80%;
+    width: 75%;
     margin-top: 50px;
     margin-left: auto;
     margin-right: auto;
@@ -92,4 +92,8 @@ a:hover {
 .opis p {
     font-size: 1.2em;
     text-align: center
+}
+
+body {
+    background-color: lightsteelblue;
 }
