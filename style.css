@@ -58,6 +58,11 @@ aside{
 aside a{
     text-shadow: 1px 1px 3px lightsalmon;
     padding-bottom: 30px;
+    font-size: 1.6em;
+}
+
+aside p{
+    font-size: 2em;
 }
 
 .button {
@@ -96,4 +101,8 @@ a:hover {
 
 body {
     background-color: lightsteelblue;
+}
+
+li{
+    font-size: 1.5em;
 }
