@@ -3,6 +3,11 @@
     font-family: 'Fira Sans', sans-serif;
 }
 
+header {
+    width: 80%;
+    margin:auto;
+}
+
 #gallery {
     display: flex;
     flex-direction: row;
@@ -54,6 +59,8 @@ aside{
     text-align: center;
     text-shadow: 1px 1px 3px blue;
     padding-bottom: 30px;
+    width: 80%;
+    margin:auto;
 }
 aside a{
     text-shadow: 1px 1px 3px lightsalmon;
