@@ -1,14 +1,82 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Wydrukuj Marzenia!</title>
-      <link rel="stylesheet" href="style.css">
+  <title>Rezerwacje</title>
 </head>
 <body>
-      <h1>Wydrukuj Marzenia!</h1>
-<p>Potrzebujusz coś wydrukować?</p>
-<p><a href= "mailto: teacha6@gmail.com"> 
-      Napisz!
-   </a></p>
+  <h1>Rezerwacje</h1>
+
+  <div id="dataDisplay">
+  </div>
+
+  <h2>Zapisz się</h2>
+  <form id="dataForm">
+    <label for="date">Data:</label>
+    <input type="date" id="date" name="date" required><br><br>
+
+    <label for="hour">Godzina:</label>
+    <input type="time" id="hour" name="hour" required><br><br>
+
+    <label for="name">Imię:</label>
+    <input type="text" id="name" name="name" required><br><br>
+
+    <button type="submit">Zapisz się</button>
+    <p id="errorMessage" style="color: red;"></p>
+  </form>
+
+  <script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzjx4jXOYIMpV9Pli4ad9QPx1cMIaWubbNhZqPKYih5rXHocoH6i1q1gOJmfYPvv9a-/exec'; // Zmień na Twój URL aplikacji webowej
+
+    function fetchData() {
+      fetch(scriptURL)
+        .then(response => response.json())
+        .then(data => {
+          let display = document.getElementById('dataDisplay');
+          display.innerHTML = '<h3>Aktualne Zapisy:</h3>';
+          if (data.length > 0) {
+            data.forEach(row => {
+              display.innerHTML += `<p>Data: ${row.Date}, Godzina: ${row.Hour}, Imię: ${row.Name}</p>`; // Dostosuj nazwy kolumn
+            });
+          } else {
+            display.innerHTML += '<p>Brak zapisów.</p>';
+          }
+        })
+        .catch(error => console.error('Błąd pobierania danych:', error));
+    }
+
+    document.getElementById('dataForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const date = document.getElementById('date').value;
+      const hour = document.getElementById('hour').value;
+      const name = document.getElementById('name').value;
+      const errorMessageElement = document.getElementById('errorMessage');
+      errorMessageElement.textContent = ''; // Wyczyść poprzednie błędy
+
+      fetch(scriptURL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ date, hour, name }),
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === 'success') {
+            alert('Zapisano!');
+            fetchData();
+            document.getElementById('dataForm').reset();
+          } else {
+            errorMessageElement.textContent = data.message; // Wyświetl komunikat o błędzie
+          }
+        })
+        .catch(error => {
+          console.error('Błąd podczas wysyłania danych:', error);
+          errorMessageElement.textContent = 'Wystąpił błąd podczas zapisu.';
+        });
+    });
+
+    fetchData(); // Pobierz dane przy załadowaniu strony
+  </script>
 </body>
 </html>
