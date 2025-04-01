@@ -1,82 +1,96 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Rezerwacje</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sunday Task Scheduler</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .task-container {
+            margin: 20px auto;
+            width: 50%;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+        .task {
+            margin: 10px 0;
+        }
+    </style>
 </head>
 <body>
-  <h1>Rezerwacje</h1>
+    <h1>Sunday Task Scheduler</h1>
+    <p>Manage people to do tasks every Sunday at 7, 9, and 11 AM</p>
+    
+    <div class="task-container">
+        <h2>Task Sign-Up</h2>
+        <div class="task">
+            <label for="task7am1">7:00 AM (Person 1):</label>
+            <input type="text" id="task7am1" placeholder="Enter name">
+            <button onclick="assignTask('task7am1', '7:00 AM')">Assign</button>
+            <br>
+            <label for="task7am2">7:00 AM (Person 2):</label>
+            <input type="text" id="task7am2" placeholder="Enter name">
+            <button onclick="assignTask('task7am2', '7:00 AM')">Assign</button>
+        </div>
+        <div class="task">
+            <label for="task9am1">9:00 AM (Person 1):</label>
+            <input type="text" id="task9am1" placeholder="Enter name">
+            <button onclick="assignTask('task9am1', '9:00 AM')">Assign</button>
+            <br>
+            <label for="task9am2">9:00 AM (Person 2):</label>
+            <input type="text" id="task9am2" placeholder="Enter name">
+            <button onclick="assignTask('task9am2', '9:00 AM')">Assign</button>
+        </div>
+        <div class="task">
+            <label for="task11am1">11:00 AM (Person 1):</label>
+            <input type="text" id="task11am1" placeholder="Enter name">
+            <button onclick="assignTask('task11am1', '11:00 AM')">Assign</button>
+            <br>
+            <label for="task11am2">11:00 AM (Person 2):</label>
+            <input type="text" id="task11am2" placeholder="Enter name">
+            <button onclick="assignTask('task11am2', '11:00 AM')">Assign</button>
+        </div>
+    </div>
+    
+    <h2>Assigned Tasks</h2>
+    <ul id="taskList"></ul>
 
-  <div id="dataDisplay">
-  </div>
+    <script>
+        function assignTask(taskId, timeSlot) {
+            const input = document.getElementById(taskId);
+            if (input.value.trim() !== "") {
+                const taskList = document.getElementById("taskList");
+                const listItem = document.createElement("li");
+                listItem.textContent = `${timeSlot}: ${input.value}`;
+                taskList.appendChild(listItem);
+                
+                input.disabled = true;
+                sendToGoogleSheet(input.value, timeSlot);
+            } else {
+                alert("Please enter a name before assigning.");
+            }
+        }
 
-  <h2>Zapisz się</h2>
-  <form id="dataForm">
-    <label for="date">Data:</label>
-    <input type="date" id="date" name="date" required><br><br>
-
-    <label for="hour">Godzina:</label>
-    <input type="time" id="hour" name="hour" required><br><br>
-
-    <label for="name">Imię:</label>
-    <input type="text" id="name" name="name" required><br><br>
-
-    <button type="submit">Zapisz się</button>
-    <p id="errorMessage" style="color: red;"></p>
-  </form>
-
-  <script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbxx0jcFHkgol0ER_j4HZ8MN0fTLrxDutqTIEAOhebbjn4O8Eq1G_RBSrXaTYF1zLxcF/exec'; // Zmień na Twój URL aplikacji webowej
-
-    function fetchData() {
-      fetch(scriptURL)
-        .then(response => response.json())
-        .then(data => {
-          let display = document.getElementById('dataDisplay');
-          display.innerHTML = '<h3>Aktualne Zapisy:</h3>';
-          if (data.length > 0) {
-            data.forEach(row => {
-              display.innerHTML += `<p>Data: ${row.Date}, Godzina: ${row.Hour}, Imię: ${row.Name}</p>`; // Dostosuj nazwy kolumn
-            });
-          } else {
-            display.innerHTML += '<p>Brak zapisów.</p>';
-          }
-        })
-        .catch(error => console.error('Błąd pobierania danych:', error));
-    }
-
-    document.getElementById('dataForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-
-      const date = document.getElementById('date').value;
-      const hour = document.getElementById('hour').value;
-      const name = document.getElementById('name').value;
-      const errorMessageElement = document.getElementById('errorMessage');
-      errorMessageElement.textContent = ''; // Wyczyść poprzednie błędy
-
-     fetch(scriptURL, {
-  method: 'POST', // <--- Make sure this is 'POST'
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({ date, hour, name }),
-})
-        .then(response => response.json())
-        .then(data => {
-          if (data.status === 'success') {
-            alert('Zapisano!');
-            fetchData();
-            document.getElementById('dataForm').reset();
-          } else {
-            errorMessageElement.textContent = data.message; // Wyświetl komunikat o błędzie
-          }
-        })
-        .catch(error => {
-          console.error('Błąd podczas wysyłania danych:', error);
-          errorMessageElement.textContent = 'Wystąpił błąd podczas zapisu.';
-        });
-    });
-
-    fetchData(); // Pobierz dane przy załadowaniu strony
-  </script>
+        async function sendToGoogleSheet(name, timeSlot) {
+            const scriptURL = 'https://script.google.com/macros/s/AKfycby_Gw4IX15Hzz2spelAE6wrUhSobIxQpnh5yBiOQty2lxtHeBvq3WJpTDNNVAGVW66x/exec';
+            try {
+                const response = await fetch(scriptURL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({ name, timeSlot })
+                });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                console.log('Success!', await response.text());
+            } catch (error) {
+                console.error('Error sending data to Google Sheet:', error.message);
+            }
+        }
+    </script>
 </body>
 </html>
