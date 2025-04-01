@@ -53,13 +53,13 @@
       const errorMessageElement = document.getElementById('errorMessage');
       errorMessageElement.textContent = ''; // Wyczyść poprzednie błędy
 
-      fetch(scriptURL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ date, hour, name }),
-      })
+     fetch(scriptURL, {
+  method: 'POST', // <--- Make sure this is 'POST'
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({ date, hour, name }),
+})
         .then(response => response.json())
         .then(data => {
           if (data.status === 'success') {
