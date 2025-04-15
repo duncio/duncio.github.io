@@ -91,117 +91,100 @@
     }
 
     function renderAlignedChordsAndLyrics(chords, lyrics) {
-      const chordParts = chords.split(" ");
-      const words = lyrics.split(/(\s+)/); // split on spaces but keep the spaces
-      let chordIndex = 0;
-      let chordLine = "";
+        const chordParts = chords.split(" ");
+        const words = lyrics.split(/(\s+)/);
+        let chordIndex = 0;
+        let chordLine = "";
 
-      for (let i = 0; i < words.length; i++) {
-        const word = words[i];
-        if (word.trim() === "") {
-          chordLine += word; // just add whitespace if it's a whitespace
-          continue;
+        for (let i = 0; i < words.length; i++) {
+            const word = words[i];
+            if (word.trim() === "") {
+                chordLine += word; // just add whitespace if it's a whitespace
+                continue;
+            }
+            const chord = chordParts[chordIndex] || "";
+            chordLine += chord.padEnd(word.length, " "); // pad chord to word length
+            chordIndex++;
         }
-        const chord = chordParts[chordIndex] || "";
-        chordLine += chord.padEnd(word.length, " "); // pad chord to word length
-        chordIndex++;
+
+        return `<div><div>${chordLine}</div><div>${lyrics}</div></div>`;
       }
 
-      return `
-          <div class="font-mono leading-tight">
-              <div class="text-blue-600 whitespace-pre">${chordLine}</div>
-              <div class="whitespace-pre">${lyrics}</div>
-          </div>
-      `;
-    }
-
-   function renderSavedSong() {
+      function renderSavedSong() {
         if (savedSong) {
-            let songHtml = `<div class="card p-4" style="font-family: 'Inter', sans-serif; color: black; background-color: white;">
-                <h2 class="text-xl font-semibold mb-2">${savedSong.title} - ${savedSong.artist}</h2>
-                <p class="text-sm text-muted-foreground mb-4">Key: ${savedSong.key} | Time Signature: ${savedSong.timeSignature} | BPM: ${savedSong.bpm}</p>
-                <div class="space-y-4">`;
-            savedSong.lines.forEach(line => {
-                songHtml += `<div class="leading-tight" style="font-family: 'Inter', sans-serif;">
-                           ${line.section !== 'None' ? `<div class="text-xs uppercase font-bold text-gray-500">${line.section}</div>` : ''}
-                            ${renderAlignedChordsAndLyrics(line.chords, line.lyrics)}
-                        </div>`;
-            });
-            songHtml += `</div>
+          let songHtml = `<div class="card p-4" style="font-family: 'Inter', sans-serif; color: black; background-color: white;">
+            <h2 class="text-xl font-semibold mb-2">${savedSong.title} - ${savedSong.artist}</h2>
+            <p class="text-sm text-muted-foreground mb-4">Key: ${savedSong.key} | Time Signature: ${savedSong.timeSignature} | BPM: ${savedSong.bpm}</p>
+            <div class="space-y-4">`;
+          savedSong.lines.forEach(line => {
+            songHtml += `<div class="leading-tight" style="font-family: 'Inter', sans-serif;">
+              ${line.section !== 'None' ? `<div class="text-xs uppercase font-bold text-gray-500">${line.section}</div>` : ''}
+              ${renderAlignedChordsAndLyrics(line.chords, line.lyrics)}
             </div>`;
-            savedSongContainer.innerHTML = songHtml;
+          });
+          songHtml += `</div>
+          </div>`;
+          savedSongContainer.innerHTML = songHtml;
         } else {
-            savedSongContainer.innerHTML = '';
+          savedSongContainer.innerHTML = '';
         }
-    }
+      }
 
-    function downloadSong(format) {
+      function downloadSong(format) {
         if (savedSong) {
-            let songText = `${savedSong.title} - ${savedSong.artist}\n`;
-            songText += `Key: ${savedSong.key} | Time Signature: ${savedSong.timeSignature} | BPM: ${savedSong.bpm}\n\n`;
+          let songText = `${savedSong.title} - ${savedSong.artist}\n`;
+          songText += `Key: ${savedSong.key} | Time Signature: ${savedSong.timeSignature} | BPM: ${savedSong.bpm}\n\n`;
 
-            // Use the alignment function for both .txt and .doc
-            savedSong.lines.forEach(line => {
-                if (line.section !== 'None') {
-                    songText += `${line.section}\n`;
-                }
+          savedSong.lines.forEach(line => {
+            if (line.section !== 'None') {
+              songText += `${line.section}\n`;
+            }
+                  const alignedText = renderAlignedChordsAndLyrics(line.chords, line.lyrics);
 
-                // Get aligned chords and lyrics using the existing function
-                const alignedText = renderAlignedChordsAndLyrics(line.chords, line.lyrics);
+                  // Extract the chord line and lyrics line
+                  const chordLine = alignedText.match(/<div>(.*?)<\/div>/)[1] || '';
+                  const lyricsLine = alignedText.match(/<div><div>.*?<\/div><div>(.*?)<\/div><\/div>/)[1] || '';
 
-                // Extract the chord line and lyrics line
-                const chordLine = alignedText.match(/<div class="text-blue-600 whitespace-pre">(.*?)<\/div>/)[1] || '';
-                const lyricsLine = alignedText.match(/<div class="whitespace-pre">(.*?)<\/div>/)[1] || '';
+                  songText += `${chordLine}\n`;
+                  songText += `${lyricsLine}\n`;
+                  songText += `\n`;
+              });
 
-                songText += `${chordLine}\n`;
-                songText += `${lyricsLine}\n`;
-                songText += `\n`;
-            });
+              let blob;
+              let filename;
 
-            let blob;
-            let filename;
-
-            blob = new Blob([songText], { type: 'text/plain' });
-            filename = `${savedSong.title}.txt`;
+              blob = new Blob([songText], { type: 'text/plain' });
+              filename = `${savedSong.title}.txt`;
 
 
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = filename;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        } else {
-            alert('No song saved yet!');
-        }
-    }
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = filename;
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+              URL.revokeObjectURL(url);
+          } else {
+              alert('No song saved yet!');
+          }
+      }
 
     function copyText() {
         if (savedSong) {
-            let songText = `${savedSong.title} - ${savedSong.artist}\n`;
-            songText += `Key: ${savedSong.key} | Time Signature: ${savedSong.timeSignature} | BPM: ${savedSong.bpm}\n\n`;
-
-            savedSong.lines.forEach(line => {
-                if (line.section !== 'None') {
-                    songText += `${line.section}\n`;
-                }
-                const alignedText = renderAlignedChordsAndLyrics(line.chords, line.lyrics);
-                const chordLine = alignedText.match(/<div class="text-blue-600 whitespace-pre">(.*?)<\/div>/)[1] || '';
-                const lyricsLine = alignedText.match(/<div class="whitespace-pre">(.*?)<\/div>/)[1] || '';
-
-                songText += `${chordLine}\n`;
-                songText += `${lyricsLine}\n`;
-                songText += `\n`;
-            });
-
-            navigator.clipboard.writeText(songText).then(() => {
-                alert('Text copied to clipboard!');
-            }).catch(err => {
-                console.error('Could not copy text: ', err);
-                alert('Could not copy text: ' + err);
-            });
+            const tempElement = document.createElement('div');
+            tempElement.style.position = 'absolute';
+            tempElement.style.left = '-9999px';
+            tempElement.innerHTML = savedSongContainer.innerHTML; // Copy the HTML from the preview
+            document.body.appendChild(tempElement);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            const range = document.createRange();
+            range.selectNodeContents(tempElement);
+            selection.addRange(range);
+            document.execCommand('copy');
+            document.body.removeChild(tempElement);
+            alert('Formatted text copied to clipboard!');
         } else {
             alert('No song saved yet!');
         }
