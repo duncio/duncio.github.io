@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChordCraft Studio (HTML/CSS/JS)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-800 p-6 dark">
+    <div class="song-container">
+        <h1 class="text-3xl font-bold mb-6 text-white">Lyrics & Chords Editor</h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div class="form-group">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" id="title" class="form-input" placeholder="Title" value="">
+            </div>
+            <div class="form-group">
+                <label for="artist" class="form-label">Artist</label>
+                <input type="text" id="artist" class="form-input" placeholder="Artist" value="">
+            </div>
+            <div class="form-group">
+                <label for="bpm" class="form-label">BPM</label>
+                <input type="text" id="bpm" class="form-input" placeholder="BPM" value="">
+            </div>
+            <div class="form-group">
+                <label for="key" class="form-label">Key Signature</label>
+                <input type="text" id="key" class="form-input" placeholder="e.g., C major" value="">
+            </div>
+             <div class="form-group">
+                <label for="timeSignature" class="form-label">Time Signature</label>
+                <input type="text" id="timeSignature" class="form-input" placeholder="e.g., 4/4" value="">
+            </div>
+        </div>
+
+        <div class="form-group mb-6">
+            <label for="bulkInput" class="form-label">Bulk Input</label>
+            <textarea id="bulkInput" class="form-textarea" placeholder="Paste full verse here (one line per row)"></textarea>
+            <button id="bulkInputButton" class="btn btn-outline mt-2">Convert to Editable Lines</button>
+        </div>
+
+        <div id="linesContainer" class="space-y-4 mb-6">
+            </div>
+
+        <button id="addLineButton" class="btn btn-outline">Add Line</button>
+
+        <button id="saveButton" class="btn btn-primary w-full sm:w-fit mt-6">Save Song</button>
+
+        <div class="flex flex-col sm:flex-row gap-2 mt-2">
+            <button id="downloadTextButton" class="btn btn-outline w-full sm:w-fit">Download as Text</button>
+            <button id="copyTextButton" class="btn btn-outline w-full sm:w-fit">Copy Text</button>
+        </div>
+
+        <div id="savedSongContainer" class="mt-6">
+            </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
