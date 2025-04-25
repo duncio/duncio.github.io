@@ -316,3 +316,39 @@
   .form-input, .form-textarea, .form-select {
       max-width: 100%;
   }
+
+/* Add these styles to your existing style.css file */
+
+/* Make double spaces visible using a different approach */
+.space-visible {
+    font-family: monospace;
+    letter-spacing: 0.05em;
+    white-space: pre;
+}
+
+/* Create a visual indicator for double spaces */
+.tip-box {
+    background-color: rgba(var(--md-sys-primary), 0.1);
+    border-left: 4px solid rgb(var(--md-sys-primary));
+    padding: 1rem;
+    border-radius: 0.25rem;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+body.dark .tip-box {
+    background-color: rgba(var(--md-sys-primary-container), 0.2);
+}
+
+.example-box {
+    border: 1px dashed rgba(var(--md-sys-outline), 0.5);
+    padding: 0.75rem;
+    border-radius: 0.25rem;
+    background-color: rgba(var(--md-sys-surface-variant), 0.3);
+}
+
+code.font-mono {
+    background: rgba(var(--md-sys-surface-variant), 0.5);
+    padding: 0.1rem 0.3rem;
+    border-radius: 0.25rem;
+}
