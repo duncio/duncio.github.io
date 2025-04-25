@@ -51,6 +51,10 @@
                         <option value="Chorus" ${line.section === 'Chorus' ? 'selected' : ''}>Chorus</option>
                         <option value="Bridge" ${line.section === 'Bridge' ? 'selected' : ''}>Bridge</option>
                         <option value="Intro" ${line.section === 'Intro' ? 'selected' : ''}>Intro</option>
+                        <option value="Outro" ${line.section === 'Outro' ? 'selected' : ''}>Outro</option>
+                        <option value="Interlude" ${line.section === 'Interlude' ? 'selected' : ''}>Interlude</option>
+                        <option value="Pre-Chorus" ${line.section === 'Pre-Chorus' ? 'selected' : ''}>Pre-Chorus</option>        
+
                     </select>
                 </div>
                 <div class="form-group">
