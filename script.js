@@ -74,9 +74,7 @@
                 handleLineChange(index, 'section', event.target.value);
             });
              chordsInput.addEventListener('input', (event) => {
-            // Replace spaces with dots as the user types
-            event.target.value = event.target.value.replace(/ /g, '.');
-            handleLineChange(index, 'chords', event.target.value);
+                 handleLineChange(index, 'chords', event.target.value);
             });
             lyricsInput.addEventListener('input', (event) => {
                 handleLineChange(index, 'lyrics', event.target.value);
