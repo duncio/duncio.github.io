@@ -12,8 +12,45 @@ const savedSongContainer = document.getElementById('savedSongContainer');
 const downloadTextButton = document.getElementById('downloadTextButton');
 const copyTextButton = document.getElementById('copyTextButton');
 
-let lines = [];
+// Make lines accessible globally for PWA functionality
+window.lines = [];
 let savedSong = null;
+
+// Load any existing data from localStorage
+document.addEventListener('DOMContentLoaded', () => {
+    try {
+        // Load the most recent song if available
+        const savedSongs = JSON.parse(localStorage.getItem('savedSongs') || '[]');
+        if (savedSongs.length > 0) {
+            const lastSavedSong = savedSongs[savedSongs.length - 1];
+            
+            // Ask user if they want to load the last song
+            if (confirm('Would you like to load your last saved song?')) {
+                titleInput.value = lastSavedSong.title || '';
+                artistInput.value = lastSavedSong.artist || '';
+                bpmInput.value = lastSavedSong.bpm || '';
+                keyInput.value = lastSavedSong.key || '';
+                timeSignatureInput.value = lastSavedSong.timeSignature || '';
+                window.lines = lastSavedSong.lines || [];
+                renderLines();
+                
+                // Also save to savedSong for display
+                savedSong = {
+                    title: lastSavedSong.title || 'Untitled',
+                    artist: lastSavedSong.artist || '',
+                    bpm: lastSavedSong.bpm || '',
+                    key: lastSavedSong.key || '',
+                    timeSignature: lastSavedSong.timeSignature || '',
+                    lines: [...lastSavedSong.lines]
+                };
+                renderSavedSong();
+            }
+        }
+    } catch (error) {
+        console.error('Error loading from localStorage:', error);
+    }
+});
+
 
 bulkInputButton.addEventListener('click', () => {
     const parsedLines = bulkInput.value

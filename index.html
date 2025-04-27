@@ -4,9 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lyrics & Chords Editor</title>
-    <author>Rafał Kordowski</author>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="Create and edit song lyrics with chord notations">
+    <meta name="theme-color" content="#1f2937">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Chords Editor">
+    
+    <!-- PWA Links -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icons/icon-192x192.png">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
 </head>
 <body class="bg-gray-800 p-6 dark">
     <div class="song-container">
@@ -55,10 +66,18 @@
 
         <div id="savedSongContainer" class="mt-6">
             </div>
+        
+        <!-- PWA Install Prompt -->
+        <div id="installPrompt" class="hidden mt-6 p-4 border-2 border-dashed border-primary rounded-lg text-center">
+            <p class="mb-2">Install this app on your device!</p>
+            <button id="installButton" class="btn btn-primary">Install App</button>
+        </div>
     </div>
     <div style="text-align: center; margin-top: 20px;">    
     <a href="https://www.buymeacoffee.com/duncio"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=☕&slug=duncio&button_colour=FFDD00&font_colour=000000&font_family=Inter&outline_colour=000000&coffee_colour=ffffff" /></a>
     </div>
-        <script src="script.js"></script>
+    
+    <script src="script.js"></script>
+    <script src="pwa.js"></script>
 </body>
 </html>

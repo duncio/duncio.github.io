@@ -1,0 +1,11 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <rect width="512" height="512" fill="#1f2937" rx="100" />
+  <g transform="translate(56, 56) scale(0.78)">
+    <!-- Music notation -->
+    <path d="M120 160 L400 120 L400 340 Q380 320 340 320 Q300 320 280 340 Q260 360 260 400 Q260 440 280 460 Q300 480 340 480 Q380 480 400 460 Q420 440 420 400 L420 80 L120 120 L120 340 Q100 320 60 320 Q20 320 0 340 Q-20 360 -20 400 Q-20 440 0 460 Q20 480 60 480 Q100 480 120 460 Q140 440 140 400 L140 160 Z" fill="#6dc2ff" />
+    
+    <!-- Lyrics text -->
+    <rect x="160" y="220" width="200" height="20" fill="#ffd91e" rx="10" />
+    <rect x="180" y="260" width="180" height="20" fill="#ffd91e" rx="10" />
+  </g>
+</svg>
