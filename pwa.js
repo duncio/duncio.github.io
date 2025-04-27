@@ -119,7 +119,24 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
     }
+// Select the install button
+const installButton = document.getElementById('installButton');
 
+// Add an event listener for the 'appinstalled' event
+window.addEventListener('appinstalled', () => {
+    console.log('PWA was installed');
+    // Hide the install button
+    if (installButton) {
+        installButton.style.display = 'none';
+    }
+});
+
+// Optional: Also hide the button if the app is already installed
+if (window.matchMedia('(display-mode: standalone)').matches) {
+    if (installButton) {
+        installButton.style.display = 'none';
+    }
+}
     // Update CSS for mobile devices
     const viewportWidth = window.innerWidth;
     if (viewportWidth < 768) {
