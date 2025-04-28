@@ -352,3 +352,10 @@ code.font-mono {
     padding: 0.1rem 0.3rem;
     border-radius: 0.25rem;
 }
+.hidden {
+    display: none !important; /* Ensures the element is completely hidden */
+}
+
+.block {
+    display: block !important; /* Ensures the element is displayed as a block */
+}
